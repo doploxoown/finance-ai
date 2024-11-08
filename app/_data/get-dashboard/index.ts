@@ -9,6 +9,7 @@ export const getDashboard = async (month: string) => {
       lt: new Date(`2024-${month}-31`),
     },
   };
+
   const depositsTotal = Number(
     (
       await db.transaction.aggregate({
@@ -17,6 +18,7 @@ export const getDashboard = async (month: string) => {
       })
     )?._sum?.amount,
   );
+
   const investmentsTotal = Number(
     (
       await db.transaction.aggregate({
@@ -25,6 +27,7 @@ export const getDashboard = async (month: string) => {
       })
     )?._sum?.amount,
   );
+
   const expensesTotal = Number(
     (
       await db.transaction.aggregate({
@@ -33,6 +36,7 @@ export const getDashboard = async (month: string) => {
       })
     )?._sum?.amount,
   );
+
   const balance = depositsTotal - investmentsTotal - expensesTotal;
 
   const transactionsTotal = Number(
@@ -43,6 +47,7 @@ export const getDashboard = async (month: string) => {
       })
     )._sum.amount,
   );
+
   const typesPercentage: TransactionPercentagePerType = {
     [TransactionType.DEPOSIT]: Math.round(
       (Number(depositsTotal || 0) / Number(transactionsTotal)) * 100,
@@ -74,6 +79,12 @@ export const getDashboard = async (month: string) => {
     ),
   }));
 
+  const lastTransactions = await db.transaction.findMany({
+    where,
+    orderBy: { date: "desc" },
+    take: 10,
+  });
+
   return {
     balance,
     depositsTotal,
@@ -81,5 +92,6 @@ export const getDashboard = async (month: string) => {
     expensesTotal,
     typesPercentage,
     totalExpensePerCategory,
+    lastTransactions,
   };
 };
