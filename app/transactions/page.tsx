@@ -31,7 +31,7 @@ const TransactionPage = async () => {
             userCanAddTransaction={userCanAddTransactions}
           />
         </div>
-        <ScrollArea>
+        <ScrollArea className="h-[700px] overflow-y-auto">
           <DataTable columns={transactionColumns} data={transactions} />
         </ScrollArea>
       </div>

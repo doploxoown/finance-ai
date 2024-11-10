@@ -14,6 +14,12 @@ export const TRANSACTION_PAYMENT_METHOD_ICONS = {
   [TransactionPaymentMethod.OTHER]: "other.svg",
 };
 
+export const TRANSACTION_TYPE_LABELS = {
+  DEPOSIT: "Depósito",
+  EXPENSE: "Despesa",
+  INVESTMENT: "Investimento",
+};
+
 export const TRANSACTION_CATEGORY_LABELS = {
   EDUCATION: "Educação",
   ENTERTAINMENT: "Entretenimento",
